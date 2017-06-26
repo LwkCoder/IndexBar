@@ -24,12 +24,13 @@ public class IndexBar extends View
     private int mTextColorPressed;
     private int mTextSizeNormal;
     private int mTextSizePressed;
+    private int mBgColorNormal;
+    private int mBgColorPressed;
     private Paint mPaintNormal;
     private Paint mPaintPressed;
     private int mWidth, mHeight, mItemHeight;
     private int mLastIndex = -1;
     private boolean mPressed;
-    private static final int[] STATE_PRESSED = new int[]{android.R.attr.state_pressed};
     private OnIndexLetterChangedListener mListener;
 
     public IndexBar(Context context)
@@ -53,6 +54,8 @@ public class IndexBar extends View
         mTextSizePressed = resources.getDimensionPixelSize(R.dimen.ib_text_size_pressed_default);
         mTextColorNormal = Color.BLACK;
         mTextColorPressed = Color.BLUE;
+        mBgColorNormal = Color.TRANSPARENT;
+        mBgColorPressed = Color.TRANSPARENT;
         //获取自定义属性
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.IndexBar);
         if (ta != null)
@@ -62,9 +65,13 @@ public class IndexBar extends View
             {
                 int index = ta.getIndex(i);
                 if (index == R.styleable.IndexBar_text_color_normal)
-                    mTextColorNormal = ta.getColor(index, Color.GRAY);
+                    mTextColorNormal = ta.getColor(index, Color.BLACK);
                 else if (index == R.styleable.IndexBar_text_color_pressed)
-                    mTextColorPressed = ta.getColor(index, Color.BLACK);
+                    mTextColorPressed = ta.getColor(index, Color.BLUE);
+                else if (index == R.styleable.IndexBar_bg_color_normal)
+                    mBgColorNormal = ta.getColor(index, Color.TRANSPARENT);
+                else if (index == R.styleable.IndexBar_bg_color_pressed)
+                    mBgColorPressed = ta.getColor(index, Color.TRANSPARENT);
                 else if (index == R.styleable.IndexBar_text_size_normal)
                     mTextSizeNormal = ta.getDimensionPixelSize(index,
                             context.getResources().getDimensionPixelSize(R.dimen.ib_text_size_normal_default));
@@ -85,6 +92,8 @@ public class IndexBar extends View
         mPaintPressed.setColor(mTextColorPressed);
         mPaintPressed.setFakeBoldText(true);
         mPaintPressed.setTypeface(Typeface.DEFAULT_BOLD);
+        //设置初始背景
+        setBackgroundColor(mBgColorNormal);
     }
 
     @Override
@@ -132,7 +141,7 @@ public class IndexBar extends View
         if (action == MotionEvent.ACTION_DOWN)
         {
             getParent().requestDisallowInterceptTouchEvent(true);
-            setPressedState(true);
+            updateBgColor(true);
             if (mListener != null)
                 mListener.onTouched(true);
             y = event.getY();
@@ -145,7 +154,7 @@ public class IndexBar extends View
                 || action == MotionEvent.ACTION_CANCEL)
         {
             getParent().requestDisallowInterceptTouchEvent(false);
-            setPressedState(false);
+            updateBgColor(false);
             if (mListener != null)
                 mListener.onTouched(false);
             mLastIndex = -1;
@@ -154,21 +163,13 @@ public class IndexBar extends View
         return true;
     }
 
-    @Override
-    protected int[] onCreateDrawableState(int extraSpace)
-    {
-        int[] states = super.onCreateDrawableState(extraSpace + 1);
-        if (mPressed)
-            mergeDrawableStates(states, STATE_PRESSED);
-        return states;
-    }
-
+    //更新Index
     private void updateIndex(float y)
     {
         int curIndex = (int) ((y - getPaddingTop()) / mItemHeight);
         if (curIndex != mLastIndex)
         {
-            if (curIndex >= 0 && curIndex < mCharArray.length)
+            if (curIndex >= 0 && mCharArray != null && curIndex < mCharArray.length)
             {
                 if (mListener != null)
                     mListener.onLetterChanged(mCharArray[curIndex], curIndex, y);
@@ -189,13 +190,16 @@ public class IndexBar extends View
         return new Pair<>(x, y);
     }
 
-    //更新按压状态
-    private void setPressedState(boolean pressed)
+    //更新按压背景
+    private void updateBgColor(boolean pressed)
     {
         if (mPressed != pressed)
         {
             mPressed = pressed;
-            refreshDrawableState();
+            if (mPressed)
+                setBackgroundColor(mBgColorPressed);
+            else
+                setBackgroundColor(mBgColorNormal);
         }
     }
 
