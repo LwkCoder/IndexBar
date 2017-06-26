@@ -95,7 +95,7 @@ public class IndexBar extends View
         mHeight = getMeasuredHeight();
         if (mCharArray != null && mCharArray.length > 0)
             mItemHeight = (mHeight - getPaddingTop() - getPaddingBottom()) / mCharArray.length;
-        //如果没有指定具体的宽度，修改宽度为Item高度+paddingTop+paddingBottom
+        //如果没有指定具体的宽度，修改宽度为Item高度+paddingLeft+paddingRight
         if (MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.EXACTLY)
             mWidth = mItemHeight + getPaddingLeft() + getPaddingRight();
         setMeasuredDimension(mWidth, mHeight);
@@ -133,17 +133,21 @@ public class IndexBar extends View
         {
             getParent().requestDisallowInterceptTouchEvent(true);
             setPressedState(true);
+            if (mListener != null)
+                mListener.onTouched(true);
             y = event.getY();
-            checkY(y);
+            updateIndex(y);
         } else if (action == MotionEvent.ACTION_MOVE)
         {
             y = event.getY();
-            checkY(y);
+            updateIndex(y);
         } else if (action == MotionEvent.ACTION_UP
                 || action == MotionEvent.ACTION_CANCEL)
         {
             getParent().requestDisallowInterceptTouchEvent(false);
             setPressedState(false);
+            if (mListener != null)
+                mListener.onTouched(false);
             mLastIndex = -1;
             invalidate();
         }
@@ -159,7 +163,7 @@ public class IndexBar extends View
         return states;
     }
 
-    private void checkY(float y)
+    private void updateIndex(float y)
     {
         int curIndex = (int) ((y - getPaddingTop()) / mItemHeight);
         if (curIndex != mLastIndex)
@@ -178,7 +182,7 @@ public class IndexBar extends View
     private Pair<Float, Float> calPosition(CharSequence str, Paint paint, int index)
     {
         // x坐标等于中间-字符串宽度的一半.
-        float x = mWidth / 2 - paint.measureText(String.valueOf(str)) / 2;
+        float x = (mWidth - paint.measureText(String.valueOf(str))) / 2;
         Rect rect = new Rect();
         paint.getTextBounds(String.valueOf(str), 0, str.length(), rect);
         float y = mItemHeight * index + (mItemHeight + rect.height()) / 2 + getPaddingTop();
@@ -214,6 +218,8 @@ public class IndexBar extends View
 
     public interface OnIndexLetterChangedListener
     {
+        void onTouched(boolean touched);
+
         void onLetterChanged(CharSequence indexChar, int index, float y);
     }
 }

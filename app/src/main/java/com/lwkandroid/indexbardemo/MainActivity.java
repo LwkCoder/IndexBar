@@ -19,6 +19,12 @@ public class MainActivity extends AppCompatActivity
         indexBar.setOnIndexLetterChangedListener(new IndexBar.OnIndexLetterChangedListener()
         {
             @Override
+            public void onTouched(boolean touched)
+            {
+
+            }
+
+            @Override
             public void onLetterChanged(CharSequence indexChar, int index, float y)
             {
                 Log.e("s", "当前索引:" + indexChar + " " + index + " " + y);

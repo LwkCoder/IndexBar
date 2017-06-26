@@ -23,4 +23,5 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':IndexBar')
     compile "com.android.support:appcompat-v7:${LIB_ANDROID_SUPPORT_VERSION}"
+    compile "com.lwkandroid:recyclerviewadapter:${LIB_RCVADAPTER_VERSION}"
 }
