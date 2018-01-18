@@ -1,4 +1,4 @@
-package com.lwkandroid.indexbar;
+package com.lwkandroid.widget.indexbar;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -12,6 +12,8 @@ import android.util.AttributeSet;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.lwkandroid.indexbar.R;
 
 /**
  * 自定义控件：索引栏

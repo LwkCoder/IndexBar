@@ -4,16 +4,24 @@
 ![](https://github.com/Vanish136/IndexBar/raw/master/pics/demo.gif) <br />
 
 ## 使用方式
+【最新版本号以[这里](https://github.com/Vanish136/IndexBar/releases)为准】
+
 #### ① 添加Gradle依赖
 ```
-compile 'com.lwkandroid:IndexBar:1.0.0'
+#last-vresion请查看上面的最新版本号
+
+#AndroidStudio3.0以下
+compile 'com.lwkandroid.widget:IndexBar:last-version'
+
+#AndroidStudio3.0以上
+implementation 'com.lwkandroid.widget:IndexBar:last-version'
 ```
 <br />
 
 #### ② 代码中使用
 ```
     //在xml中定义
-    <com.lwkandroid.indexbar.IndexBar
+    <com.lwkandroid.widget.indexbar.IndexBar
         android:id="@+id/indexBar"
         android:layout_width="40dp"
         android:layout_height="match_parent"
@@ -48,8 +56,8 @@ compile 'com.lwkandroid:IndexBar:1.0.0'
 
 ### 混淆配置
 ```
--dontwarn com.lwkandroid.indexbar.**
--keep class com.lwkandroid.indexbar.**{*;}
+-dontwarn com.lwkandroid.widget.indexbar.**
+-keep class com.lwkandroid.widget.indexbar.**{*;}
 ```
 
 ### 开源参考

@@ -30,7 +30,7 @@
         android:textSize="50sp"
         android:visibility="gone"/>
 
-    <com.lwkandroid.indexbar.IndexBar
+    <com.lwkandroid.widget.indexbar.IndexBar
         android:id="@+id/indexBar"
         android:layout_width="40dp"
         android:layout_height="match_parent"

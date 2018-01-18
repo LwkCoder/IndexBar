@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.lwkandroid.indexbar.IndexBar;
+import com.lwkandroid.widget.indexbar.IndexBar;
 import com.lwkandroid.rcvadapter.bean.RcvSectionWrapper;
 import com.lwkandroid.rcvadapter.ui.RcvStickyLayout;
 import com.lwkandroid.rcvadapter.utils.RcvLinearDecoration;
