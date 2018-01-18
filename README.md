@@ -8,7 +8,7 @@
 
 #### ① 添加Gradle依赖
 ```
-#last-vresion请查看上面的最新版本号
+#last-version请查看上面的最新版本号
 
 #AndroidStudio3.0以下
 compile 'com.lwkandroid.widget:IndexBar:last-version'
