@@ -21,7 +21,7 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 
 def lib_name = "IndexBar"
 version = "1.0.1"
-group = "com.lwkandroid.widget"
+group = "com.lwkandroid"
 def siteUrl = 'https://github.com/Vanish136/IndexBar'
 def gitUrl = 'https://github.com/Vanish136/IndexBar.git'
 def bintrayuser = properties.getProperty("user")
