@@ -2,21 +2,22 @@ package com.lwkandroid.indexbardemo;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.lwkandroid.widget.indexbar.IndexBar;
 import com.lwkandroid.rcvadapter.bean.RcvSectionWrapper;
 import com.lwkandroid.rcvadapter.ui.RcvStickyLayout;
 import com.lwkandroid.rcvadapter.utils.RcvLinearDecoration;
+import com.lwkandroid.widget.indexbar.IndexBar;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.lwkandroid.indexbardemo.R.id.indexBar;
 
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements IndexBar.OnIndexL
 
         mStickyLayout = (RcvStickyLayout) findViewById(R.id.stickyLayout);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new RcvLinearDecoration(MainActivity.this, LinearLayoutManager.VERTICAL));
         mAdapter = new UserAdapter(this, null);

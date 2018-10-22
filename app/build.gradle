@@ -22,9 +22,6 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':IndexBar')
-    implementation "com.android.support:appcompat-v7:${LIB_ANDROID_SUPPORT_VERSION}"
-    implementation "com.android.support:recyclerview-v7:${LIB_ANDROID_SUPPORT_VERSION}"
-    implementation("com.lwkandroid:recyclerviewadapter:${LIB_RCVADAPTER_VERSION}") {
-        exclude(group: 'com.android.support', module: 'recyclerview-v7')
-    }
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation "com.lwkandroid:recyclerviewadapter:${LIB_RCVADAPTER_VERSION}"
 }
