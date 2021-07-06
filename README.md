@@ -9,12 +9,12 @@
 #### ① 添加Gradle依赖
 ```
 #last-version请查看上面的最新版本号
+#1.0.2版本开始后引用方式如下：
+implementation 'com.lwkandroid.library:IndexBar:last-version'
 
-#AndroidStudio3.0以下
-compile 'com.lwkandroid:IndexBar:last-version'
-
-#AndroidStudio3.0以上
+#1.0.2版本以前引用方式如下：
 implementation 'com.lwkandroid:IndexBar:last-version'
+
 ```
 <br />
 
@@ -55,10 +55,7 @@ implementation 'com.lwkandroid:IndexBar:last-version'
 <br />
 
 ### 混淆配置
-```
--dontwarn com.lwkandroid.widget.indexbar.**
--keep class com.lwkandroid.widget.indexbar.**{*;}
-```
+无需额外混淆配置
 
 ### 开源参考
 1. Demo中实现`指定RecyclerView滚动到指定位置`的参考博客：http://blog.csdn.net/tyzlmjj/article/details/49227601

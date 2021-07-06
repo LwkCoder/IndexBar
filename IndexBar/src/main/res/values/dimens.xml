@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="ib_text_size_normal_default">10sp</dimen>
-    <dimen name="ib_text_size_pressed_default">15sp</dimen>
-</resources>

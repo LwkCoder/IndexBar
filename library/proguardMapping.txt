@@ -1,0 +1,25 @@
+# compiler: R8
+# compiler_version: 2.2.71
+# pg_map_id: bfaebb4
+# common_typos_disable
+com.lwkandroid.indexbar.BuildConfig -> com.lwkandroid.indexbar.BuildConfig:
+    1:1:void <init>():6:6 -> <init>
+com.lwkandroid.widget.indexbar.IndexBar -> com.lwkandroid.widget.indexbar.IndexBar:
+    1:1:void <init>(android.content.Context):40:40 -> <init>
+    2:9:void <init>(android.content.Context):34:41 -> <init>
+    10:10:void <init>(android.content.Context,android.util.AttributeSet):46:46 -> <init>
+    11:24:void <init>(android.content.Context,android.util.AttributeSet):34:47 -> <init>
+    1:5:android.util.Pair calPosition(java.lang.CharSequence,android.graphics.Paint,int):205:209 -> calPosition
+    1:27:boolean dispatchTouchEvent(android.view.MotionEvent):152:178 -> dispatchTouchEvent
+    1:32:void init(android.content.Context,android.util.AttributeSet):53:84 -> init
+    33:38:void init(android.content.Context,android.util.AttributeSet):83:88 -> init
+    39:57:void init(android.content.Context,android.util.AttributeSet):87:105 -> init
+    1:15:void onDraw(android.graphics.Canvas):129:143 -> onDraw
+    1:13:void onMeasure(int,int):111:123 -> onMeasure
+    1:1:void setOnIndexLetterChangedListener(com.lwkandroid.widget.indexbar.IndexBar$OnIndexLetterChangedListener):242:242 -> setOnIndexLetterChangedListener
+    1:2:void setTextArray(java.lang.CharSequence[]):233:234 -> setTextArray
+    1:9:void updateBgColor(boolean):215:223 -> updateBgColor
+    1:13:void updateIndex(float):186:198 -> updateIndex
+com.lwkandroid.widget.indexbar.IndexBar$OnIndexLetterChangedListener -> com.lwkandroid.widget.indexbar.IndexBar$a:
+    void onLetterChanged(java.lang.CharSequence,int,float) -> a
+    void onTouched(boolean) -> a

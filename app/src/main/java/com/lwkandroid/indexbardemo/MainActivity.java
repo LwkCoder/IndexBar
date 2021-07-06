@@ -24,8 +24,10 @@ import static com.lwkandroid.indexbardemo.R.id.indexBar;
 public class MainActivity extends AppCompatActivity implements IndexBar.OnIndexLetterChangedListener
 {
     private static final CharSequence[] INDEX_ARRAY = new CharSequence[]{
-            "#", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
-            "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+            "#", "A", "B", "C", "D",
+            "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
+            "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
+    };
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private UserAdapter mAdapter;
@@ -43,13 +45,13 @@ public class MainActivity extends AppCompatActivity implements IndexBar.OnIndexL
         setContentView(R.layout.activity_main);
 
         mHandler = new Handler(getMainLooper());
-        mIndexBar = (IndexBar) findViewById(indexBar);
+        mIndexBar = findViewById(indexBar);
         mIndexBar.setTextArray(INDEX_ARRAY);
-        mTvIndicate = (TextView) findViewById(R.id.tv_indicate);
+        mTvIndicate = findViewById(R.id.tv_indicate);
         mIndexBar.setOnIndexLetterChangedListener(this);
 
-        mStickyLayout = (RcvStickyLayout) findViewById(R.id.stickyLayout);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mStickyLayout = findViewById(R.id.stickyLayout);
+        mRecyclerView = findViewById(R.id.recyclerView);
         mLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new RcvLinearDecoration(MainActivity.this, LinearLayoutManager.VERTICAL));
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements IndexBar.OnIndexL
             public void onScrolled(RecyclerView recyclerView, int dx, int dy)
             {
                 super.onScrolled(recyclerView, dx, dy);
-                //在这里进行第二次滚动来让Sction滚动到顶部
+                //在这里进行第二次滚动来让Section滚动到顶部
                 if (mMoved)
                 {
                     mMoved = false;
@@ -86,35 +88,23 @@ public class MainActivity extends AppCompatActivity implements IndexBar.OnIndexL
     private void initData()
     {
         //获取模拟数据
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
+        new Thread(() -> {
+            List<User> list = UserModel.getUserDatas();
+            final List<RcvSectionWrapper<String, User>> resultList = new ArrayList<>();
+            Set<String> charSet = new HashSet<>();
+
+            for (User user : list)
             {
-                List<User> list = UserModel.getUserDatas();
-                final List<RcvSectionWrapper<String, User>> resultList = new ArrayList<>();
-                Set<String> charSet = new HashSet<>();
-
-                for (User user : list)
+                if (!charSet.contains(user.getFirstChar()))
                 {
-                    if (!charSet.contains(user.getFirstChar()))
-                    {
-                        resultList.add(new RcvSectionWrapper<String, User>(true, user.getFirstChar(), null));
-                        charSet.add(user.getFirstChar());
-                    }
-
-                    resultList.add(new RcvSectionWrapper<String, User>(false, null, user));
+                    resultList.add(new RcvSectionWrapper<>(true, user.getFirstChar(), null));
+                    charSet.add(user.getFirstChar());
                 }
 
-                mHandler.post(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        mAdapter.refreshDatas(resultList);
-                    }
-                });
+                resultList.add(new RcvSectionWrapper<>(false, null, user));
             }
+
+            mHandler.post(() -> mAdapter.refreshDatas(resultList));
         }).start();
     }
 
@@ -122,9 +112,12 @@ public class MainActivity extends AppCompatActivity implements IndexBar.OnIndexL
     public void onTouched(boolean touched)
     {
         if (touched)
+        {
             mTvIndicate.setVisibility(View.VISIBLE);
-        else
+        } else
+        {
             mTvIndicate.setVisibility(View.GONE);
+        }
     }
 
     @Override
