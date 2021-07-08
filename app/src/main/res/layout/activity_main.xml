@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,13 +9,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <com.lwkandroid.rcvadapter.ui.RcvStickyLayout
         android:id="@+id/stickyLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"/>
+        android:layout_gravity="top" />
 
     <TextView
         android:id="@+id/tv_indicate"
@@ -28,17 +27,20 @@
         android:text="A"
         android:textColor="@android:color/white"
         android:textSize="50sp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <com.lwkandroid.widget.indexbar.IndexBar
         android:id="@+id/indexBar"
-        android:layout_width="40dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="right"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         app:bg_color_normal="@android:color/transparent"
         app:bg_color_pressed="#10000000"
+        app:text_array="@array/index_array"
         app:text_color_normal="#3c3c3c"
         app:text_color_pressed="#000093"
         app:text_size_normal="14sp"
-        app:text_size_pressed="16sp"/>
+        app:text_size_pressed="16sp" />
 </FrameLayout>

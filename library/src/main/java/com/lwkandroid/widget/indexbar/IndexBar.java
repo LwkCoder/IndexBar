@@ -30,7 +30,9 @@ public class IndexBar extends View
     private int mBgColorPressed;
     private Paint mPaintNormal;
     private Paint mPaintPressed;
-    private int mWidth, mHeight, mItemHeight;
+    private int mTotalWidth;
+    private int mTotalHeight;
+    private int mItemHeight;
     private int mLastIndex = -1;
     private boolean mPressed;
     private OnIndexLetterChangedListener mListener;
@@ -51,42 +53,23 @@ public class IndexBar extends View
     {
         //初始化默认属性
         Resources resources = context.getResources();
-        mCharArray = resources.getStringArray(R.array.index_bar_array);
-        mTextSizeNormal = resources.getDimensionPixelSize(R.dimen.ib_text_size_normal_default);
-        mTextSizePressed = resources.getDimensionPixelSize(R.dimen.ib_text_size_pressed_default);
-        mTextColorNormal = Color.BLACK;
-        mTextColorPressed = Color.BLUE;
-        mBgColorNormal = Color.TRANSPARENT;
-        mBgColorPressed = Color.TRANSPARENT;
+
         //获取自定义属性
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.IndexBar);
         if (ta != null)
         {
-            int count = ta.getIndexCount();
-            for (int i = 0; i < count; i++)
+            mTextColorNormal = ta.getColor(R.styleable.IndexBar_text_color_normal, Color.BLACK);
+            mTextColorPressed = ta.getColor(R.styleable.IndexBar_text_color_normal, Color.BLUE);
+            mBgColorNormal = ta.getColor(R.styleable.IndexBar_bg_color_normal, Color.TRANSPARENT);
+            mBgColorPressed = ta.getColor(R.styleable.IndexBar_bg_color_pressed, Color.TRANSPARENT);
+            mTextSizeNormal = ta.getDimensionPixelSize(R.styleable.IndexBar_text_size_normal,
+                    context.getResources().getDimensionPixelOffset(R.dimen.ib_text_size_normal_default));
+            mTextSizePressed = ta.getDimensionPixelSize(R.styleable.IndexBar_text_size_pressed,
+                    context.getResources().getDimensionPixelOffset(R.dimen.ib_text_size_pressed_default));
+            mCharArray = ta.getTextArray(R.styleable.IndexBar_text_array);
+            if (mCharArray == null)
             {
-                int index = ta.getIndex(i);
-                if (index == R.styleable.IndexBar_text_color_normal)
-                {
-                    mTextColorNormal = ta.getColor(index, Color.BLACK);
-                } else if (index == R.styleable.IndexBar_text_color_pressed)
-                {
-                    mTextColorPressed = ta.getColor(index, Color.BLUE);
-                } else if (index == R.styleable.IndexBar_bg_color_normal)
-                {
-                    mBgColorNormal = ta.getColor(index, Color.TRANSPARENT);
-                } else if (index == R.styleable.IndexBar_bg_color_pressed)
-                {
-                    mBgColorPressed = ta.getColor(index, Color.TRANSPARENT);
-                } else if (index == R.styleable.IndexBar_text_size_normal)
-                {
-                    mTextSizeNormal = ta.getDimensionPixelSize(index,
-                            context.getResources().getDimensionPixelSize(R.dimen.ib_text_size_normal_default));
-                } else if (index == R.styleable.IndexBar_text_size_pressed)
-                {
-                    mTextSizePressed = ta.getDimensionPixelSize(index,
-                            context.getResources().getDimensionPixelSize(R.dimen.ib_text_size_pressed_default));
-                }
+                mCharArray = resources.getStringArray(R.array.index_bar_array);
             }
             ta.recycle();
         }
@@ -109,18 +92,56 @@ public class IndexBar extends View
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        mWidth = getMeasuredWidth();
-        mHeight = getMeasuredHeight();
+
+        mTotalWidth = MeasureSpec.getSize(widthMeasureSpec);
+        mTotalHeight = MeasureSpec.getSize(heightMeasureSpec);
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int paddingLeft = getPaddingLeft();
+        int paddingRight = getPaddingRight();
+        int paddingTop = getPaddingTop();
+        int paddingBottom = getPaddingBottom();
+
+        float maxCharWidth = 0f;
+        float totalCharHeight = 0f;
+        if (mCharArray != null)
+        {
+            //遍历所有CharSequence，找出常态、按下状态对应的最大宽值和总计高度
+            for (CharSequence value : mCharArray)
+            {
+                Paint.FontMetrics normalFontMetrics = mPaintNormal.getFontMetrics();
+                Paint.FontMetrics pressedFontMetrics = mPaintPressed.getFontMetrics();
+
+                float normalWidth = mPaintNormal.measureText(value.toString());
+                float normalHeight = normalFontMetrics.bottom - normalFontMetrics.top;
+                float pressedWidth = mPaintPressed.measureText(value.toString());
+                float pressedHeight = pressedFontMetrics.bottom - pressedFontMetrics.top;
+
+                float charWidth = Math.max(normalWidth, pressedWidth);
+                float charHeight = Math.max(normalHeight, pressedHeight);
+
+                maxCharWidth = Math.max(maxCharWidth, charWidth);
+                totalCharHeight += charHeight;
+            }
+        }
+
+        //宽度未明确指定时，计算所需宽度
+        if (MeasureSpec.EXACTLY != widthMode)
+        {
+            mTotalWidth = (int) (maxCharWidth + paddingLeft + paddingRight);
+        }
+        //高度未明确指定时，计算所需高度
+        if (MeasureSpec.EXACTLY != heightMode)
+        {
+            mTotalHeight = (int) (totalCharHeight + paddingTop + paddingBottom);
+        }
+
+        //计算最终每个字符所需要的高度(均分整体高度)
         if (mCharArray != null && mCharArray.length > 0)
         {
-            mItemHeight = (mHeight - getPaddingTop() - getPaddingBottom()) / mCharArray.length;
+            mItemHeight = (mTotalHeight - paddingTop - paddingBottom) / mCharArray.length;
         }
-        //如果没有指定具体的宽度，修改宽度为Item高度+paddingLeft+paddingRight
-        if (MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.EXACTLY)
-        {
-            mWidth = mItemHeight + getPaddingLeft() + getPaddingRight();
-        }
-        setMeasuredDimension(mWidth, mHeight);
+        setMeasuredDimension(mTotalWidth, mTotalHeight);
     }
 
     @Override
@@ -202,7 +223,7 @@ public class IndexBar extends View
     private Pair<Float, Float> calPosition(CharSequence str, Paint paint, int index)
     {
         // x坐标等于中间-字符串宽度的一半.
-        float x = (mWidth - paint.measureText(String.valueOf(str))) / 2;
+        float x = (mTotalWidth - paint.measureText(String.valueOf(str))) / 2;
         Rect rect = new Rect();
         paint.getTextBounds(String.valueOf(str), 0, str.length(), rect);
         float y = mItemHeight * index + (mItemHeight + rect.height()) / 2 + getPaddingTop();

@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">IndexBarDemo</string>
+    <string-array name="index_array">
+        <item>*</item>
+        <item>A</item>
+        <item>K</item>
+        <item>K4</item>
+        <item>9</item>
+        <item>$</item>
+    </string-array>
 </resources>

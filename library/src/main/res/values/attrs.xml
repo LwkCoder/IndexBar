@@ -7,5 +7,6 @@
         <attr name="text_color_pressed" format="color"/>
         <attr name="bg_color_normal" format="color"/>
         <attr name="bg_color_pressed" format="color"/>
+        <attr name="text_array" format="reference"/>
     </declare-styleable>
 </resources>
