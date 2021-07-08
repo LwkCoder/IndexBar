@@ -32,8 +32,8 @@
     <com.lwkandroid.widget.indexbar.IndexBar
         android:id="@+id/indexBar"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="right"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         app:bg_color_normal="@android:color/transparent"
