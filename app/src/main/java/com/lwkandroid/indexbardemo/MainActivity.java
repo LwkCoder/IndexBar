@@ -25,8 +25,8 @@ public class MainActivity extends AppCompatActivity implements IndexBar.OnIndexL
 {
     private static final CharSequence[] INDEX_ARRAY = new CharSequence[]{
             "#", "A", "B", "C", "D",
-//            "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
-//            "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
+            "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
+            "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
     };
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements IndexBar.OnIndexL
 
         mHandler = new Handler(getMainLooper());
         mIndexBar = findViewById(indexBar);
-//        mIndexBar.setTextArray(INDEX_ARRAY);
+        mIndexBar.setTextArray(INDEX_ARRAY);
         mTvIndicate = findViewById(R.id.tv_indicate);
         mIndexBar.setOnIndexLetterChangedListener(this);
 
