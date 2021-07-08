@@ -1,6 +1,6 @@
 ext {
     configs = [
-            libVersion    : "1.0.2", // 指定库的版本号
+            libVersion    : "1.0.3", // 指定库的版本号
             libGroupId    : "com.lwkandroid.library", // 库的group名，确定好之后不能修改
             libArtifactId : "IndexBar",//库的ArtifactId
             libName       : 'IndexBar',// 库的名称
